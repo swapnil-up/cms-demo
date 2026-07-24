@@ -1,31 +1,106 @@
-import { createBrowserRouter, RouterProvider, Link, useLoaderData, type LoaderFunctionArgs } from "react-router-dom";
-import { TinaMarkdown } from "tinacms/dist/rich-text";
-import { tinaField, useTina } from "tinacms/dist/react";
+import { useState, useEffect } from "react";
+import { useTina } from "tinacms/dist/react";
 import client from "../tina/__generated__/client";
 
-const load = ({ params }: LoaderFunctionArgs) =>
-  client.queries.page({ relativePath: `${params.slug ?? "home"}.mdx` });
+import Navbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import AboutSection from "./components/AboutSection";
+import ServicesSection from "./components/ServicesSection";
+import TeamSection from "./components/TeamSection";
+import TestimonialsSection from "./components/TestimonialsSection";
+import ContactSection from "./components/ContactSection";
+import CTASection from "./components/CTASection";
+import Footer from "./components/Footer";
 
-function Page() {
-  const { data } = useTina(useLoaderData() as Awaited<ReturnType<typeof load>>);
-  return (
-    <>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/about">About</Link> |{" "}
-        <a href="/admin/index.html">Admin</a>
-      </nav>
-      <main data-tina-field={tinaField(data.page, "body")}>
-        <TinaMarkdown content={data.page.body} />
-      </main>
-    </>
-  );
+import "./styles.css";
+
+const EMPTY = {
+  data: { page: { sections: [] } },
+  query: "",
+  variables: {},
+};
+
+function SectionRenderer({ section, ...extra }: any) {
+  switch (section._template) {
+    case "hero":
+      return <HeroSection section={section} />;
+    case "about":
+      return <AboutSection section={section} />;
+    case "services":
+      return <ServicesSection section={section} />;
+    case "team":
+      return <TeamSection section={section} team={extra.team} />;
+    case "testimonials":
+      return (
+        <TestimonialsSection
+          section={section}
+          testimonials={extra.testimonials}
+        />
+      );
+    case "contact":
+      return <ContactSection section={section} settings={extra.settings} />;
+    case "cta":
+      return <CTASection section={section} />;
+    default:
+      return null;
+  }
 }
 
-const router = createBrowserRouter([
-  { path: "/", loader: load, element: <Page /> },
-  { path: "/:slug", loader: load, element: <Page /> },
-]);
-
 export default function App() {
-  return <RouterProvider router={router} />;
+  const [loaded, setLoaded] = useState(false);
+  const [pageRes, setPageRes] = useState<any>(EMPTY);
+  const [team, setTeam] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [settings, setSettings] = useState<any>(null);
+
+  useEffect(() => {
+    async function load() {
+      const [p, tm, tst, s] = await Promise.all([
+        client.queries.page({ relativePath: "home.mdx" }),
+        client.queries.teamConnection(),
+        client.queries.testimonialConnection(),
+        client.queries.settings({ relativePath: "global.json" }),
+      ]);
+      setPageRes(p);
+      setTeam(
+        tm.data.teamConnection?.edges?.map((e: any) => e.node) ?? []
+      );
+      setTestimonials(
+        tst.data.testimonialConnection?.edges?.map((e: any) => e.node) ?? []
+      );
+      setSettings(s.data.settings);
+      setLoaded(true);
+    }
+    load();
+  }, []);
+
+  const { data } = useTina(pageRes);
+
+  if (!loaded) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner" />
+      </div>
+    );
+  }
+
+  const sections = data.page.sections ?? [];
+
+  return (
+    <>
+      <Navbar settings={settings} />
+      <main>
+        {sections.map((section: any, i: number) => (
+          <SectionRenderer
+            key={i}
+            section={section}
+            team={team}
+            testimonials={testimonials}
+            settings={settings}
+          />
+        ))}
+      </main>
+      <Footer settings={settings} />
+    </>
+  );
 }
