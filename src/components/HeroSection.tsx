@@ -1,4 +1,7 @@
-export default function HeroSection({ section }: { section: any }) {
+import type { PageSectionsHero } from "../../tina/__generated__/types";
+import styles from "./HeroSection.module.css";
+
+export default function HeroSection({ section }: { section: PageSectionsHero }) {
   const bg = section.backgroundImage
     ? `url(${section.backgroundImage})`
     : undefined;
@@ -6,15 +9,15 @@ export default function HeroSection({ section }: { section: any }) {
   return (
     <section
       id="hero"
-      className="hero"
+      className={styles.hero}
       style={bg ? { backgroundImage: bg } : undefined}
     >
-      <div className="hero-overlay" />
-      <div className="hero-content">
-        <h1 className="hero-headline">{section.headline}</h1>
-        {section.subtext && <p className="hero-subtext">{section.subtext}</p>}
+      <div className={styles.overlay} />
+      <div className={styles.content}>
+        <h1 className={styles.headline} data-tina-field="headline">{section.headline}</h1>
+        {section.subtext && <p className={styles.subtext} data-tina-field="subtext">{section.subtext}</p>}
         {section.ctaText && (
-          <a href={section.ctaLink || "#"} className="btn btn-primary">
+          <a href={section.ctaLink || "#"} className="btn btn-primary" data-tina-field="ctaText">
             {section.ctaText}
           </a>
         )}

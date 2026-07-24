@@ -1,17 +1,55 @@
+import { useState } from "react";
+import styles from "./ContactSection.module.css";
+
+interface ContactSectionData {
+  title: string;
+  subtitle?: string | null;
+}
+
+interface SettingsData {
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  address?: string | null;
+}
+
 export default function ContactSection({
   section,
   settings,
 }: {
-  section: any;
-  settings: any;
+  section: ContactSectionData;
+  settings: SettingsData;
 }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch("https://formspree.io/f/your-form-id", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      if (!res.ok) throw new Error("Failed to send message");
+      setStatus("success");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <section id="contact" className="section">
       <div className="container">
         <div className="section-header">
-          <h2 className="section-title">{section.title}</h2>
+          <h2 className="section-title" data-tina-field="title">{section.title}</h2>
           {section.subtitle && (
-            <p className="section-subtitle">{section.subtitle}</p>
+            <p className="section-subtitle" data-tina-field="subtitle">{section.subtitle}</p>
           )}
         </div>
         <div className="contact-grid">
@@ -75,31 +113,48 @@ export default function ContactSection({
             )}
           </div>
           <div className="contact-form">
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="form"
-            >
+            <form onSubmit={handleSubmit} className={styles.form} name="contact">
               <input
                 type="text"
                 placeholder="Your Name"
-                className="form-input"
+                className={styles.input}
                 required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <input
                 type="email"
                 placeholder="Your Email"
-                className="form-input"
+                className={styles.input}
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <textarea
                 placeholder="Your Message"
-                className="form-input form-textarea"
+                className={`${styles.input} ${styles.textarea}`}
                 rows={4}
                 required
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
               />
-              <button type="submit" className="btn btn-primary">
-                Send Message
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={status === "loading"}
+              >
+                {status === "loading" ? "Sending..." : "Send Message"}
               </button>
+              {status === "success" && (
+                <p className={styles.feedback + " " + styles.success}>
+                  Message sent successfully!
+                </p>
+              )}
+              {status === "error" && (
+                <p className={styles.feedback + " " + styles.error}>
+                  Failed to send. Please try again.
+                </p>
+              )}
             </form>
           </div>
         </div>

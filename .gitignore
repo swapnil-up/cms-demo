@@ -37,6 +37,9 @@ yarn-error.log*
 
 .prototools
 
+# AI analysis output
+/llm
+
 # Package manager lock files — committed for reproducible builds
 # only ignore the ones we don't use
 package-lock.json

@@ -1,27 +1,37 @@
-export default function TestimonialsSection({ section }: { section: any }) {
+import styles from "./TestimonialsSection.module.css";
+
+interface TestimonialData {
+  quote: string;
+  author: string;
+  role?: string | null;
+  organization?: string | null;
+  photo?: string | null;
+}
+
+export default function TestimonialsSection({ section }: { section: { title: string; subtitle?: string | null; items?: Array<{ item?: TestimonialData | null } | null> | null } }) {
   const testimonials = (section.items || [])
-    .map((i: any) => i?.item)
-    .filter(Boolean);
+    .map((i) => i?.item)
+    .filter((x): x is TestimonialData => x != null);
 
   return (
     <section id="testimonials" className="section section-alt">
       <div className="container">
         <div className="section-header">
-          <h2 className="section-title">{section.title}</h2>
+          <h2 className="section-title" data-tina-field="title">{section.title}</h2>
           {section.subtitle && (
-            <p className="section-subtitle">{section.subtitle}</p>
+            <p className="section-subtitle" data-tina-field="subtitle">{section.subtitle}</p>
           )}
         </div>
-        <div className="testimonials-grid">
-          {testimonials.map((t: any, i: number) => (
-            <div key={i} className="testimonial-card">
-              <blockquote className="testimonial-quote">"{t.quote}"</blockquote>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">
+        <div className={styles.grid}>
+          {testimonials.map((t, i) => (
+            <div key={i} className={styles.card}>
+              <blockquote className={styles.quote} data-tina-field="quote">"{t.quote}"</blockquote>
+              <div className={styles.author}>
+                <div className={styles.avatar}>
                   {t.photo ? (
                     <img src={t.photo} alt={t.author} />
                   ) : (
-                    <span className="team-initials">
+                    <span className={styles.initials}>
                       {t.author
                         ?.split(" ")
                         .map((n: string) => n[0])
@@ -30,9 +40,9 @@ export default function TestimonialsSection({ section }: { section: any }) {
                   )}
                 </div>
                 <div>
-                  <p className="testimonial-name">{t.author}</p>
+                  <p className={styles.name} data-tina-field="author">{t.author}</p>
                   {(t.role || t.organization) && (
-                    <p className="testimonial-meta">
+                    <p className={styles.meta}>
                       {t.role}
                       {t.role && t.organization ? ", " : ""}
                       {t.organization}

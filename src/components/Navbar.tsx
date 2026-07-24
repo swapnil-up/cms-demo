@@ -1,11 +1,14 @@
-export default function Navbar({ settings }: { settings: any }) {
+import type { SettingsPartsFragment } from "../../tina/__generated__/types";
+import styles from "./Navbar.module.css";
+
+export default function Navbar({ settings }: { settings: SettingsPartsFragment }) {
   return (
-    <nav className="navbar">
-      <div className="navbar-inner">
-        <a href="/" className="navbar-brand">
+    <nav className={styles.navbar}>
+      <div className={styles.inner}>
+        <a href="/" className={styles.brand} data-tina-field="siteName">
           {settings?.siteName}
         </a>
-        <div className="navbar-links">
+        <div className={styles.links}>
           <a href="#about">About</a>
           <a href="#services">Services</a>
           <a href="#team">Team</a>
