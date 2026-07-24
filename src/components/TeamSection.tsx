@@ -1,10 +1,8 @@
-export default function TeamSection({
-  section,
-  team,
-}: {
-  section: any;
-  team: any[];
-}) {
+export default function TeamSection({ section }: { section: any }) {
+  const members = (section.members || [])
+    .map((m: any) => m?.member)
+    .filter(Boolean);
+
   return (
     <section id="team" className="section">
       <div className="container">
@@ -15,7 +13,7 @@ export default function TeamSection({
           )}
         </div>
         <div className="team-grid">
-          {team.map((member: any, i: number) => (
+          {members.map((member: any, i: number) => (
             <div key={i} className="team-card">
               <div className="team-avatar">
                 {member.photo ? (

@@ -3,5 +3,4 @@ quote: "Before Samriddhi Nepal came to our village, we had no access to basic he
 author: "Sita Rai"
 role: "Community Leader"
 organization: "Sunakhari Village"
-photo: ""
 ---

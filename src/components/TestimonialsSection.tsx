@@ -1,10 +1,8 @@
-export default function TestimonialsSection({
-  section,
-  testimonials,
-}: {
-  section: any;
-  testimonials: any[];
-}) {
+export default function TestimonialsSection({ section }: { section: any }) {
+  const testimonials = (section.items || [])
+    .map((i: any) => i?.item)
+    .filter(Boolean);
+
   return (
     <section id="testimonials" className="section section-alt">
       <div className="container">

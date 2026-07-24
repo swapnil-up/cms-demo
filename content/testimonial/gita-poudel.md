@@ -3,5 +3,4 @@ quote: "I never thought I would be a community leader. The women's leadership wo
 author: "Gita Poudel"
 role: "Women's Group Facilitator"
 organization: "Chitwan"
-photo: ""
 ---

@@ -131,9 +131,10 @@ export default defineConfig({
                     required: true,
                   },
                   {
-                    type: "rich-text",
+                    type: "string",
                     name: "content",
                     label: "Content",
+                    ui: { component: "textarea" },
                   },
                   {
                     type: "image",
@@ -195,6 +196,21 @@ export default defineConfig({
                     name: "subtitle",
                     label: "Subtitle",
                   },
+                  {
+                    type: "object",
+                    name: "members",
+                    label: "Team Members",
+                    description: "Select team members to display",
+                    list: true,
+                    fields: [
+                      {
+                        type: "reference",
+                        name: "member",
+                        label: "Team Member",
+                        collections: ["team"],
+                      },
+                    ],
+                  },
                 ],
               },
               {
@@ -212,6 +228,21 @@ export default defineConfig({
                     type: "string",
                     name: "subtitle",
                     label: "Subtitle",
+                  },
+                  {
+                    type: "object",
+                    name: "items",
+                    label: "Testimonials",
+                    description: "Select testimonials to display",
+                    list: true,
+                    fields: [
+                      {
+                        type: "reference",
+                        name: "item",
+                        label: "Testimonial",
+                        collections: ["testimonial"],
+                      },
+                    ],
                   },
                 ],
               },

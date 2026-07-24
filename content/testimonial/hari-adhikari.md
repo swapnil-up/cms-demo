@@ -3,5 +3,4 @@ quote: "The skill training program gave me the confidence to start my own tailor
 author: "Hari Adhikari"
 role: "Entrepreneur"
 organization: "Pokhara"
-photo: ""
 ---
