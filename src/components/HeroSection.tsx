@@ -1,3 +1,4 @@
+import { tinaField } from "tinacms/dist/react";
 import type { PageSectionsHero } from "../../tina/__generated__/types";
 import styles from "./HeroSection.module.css";
 
@@ -14,10 +15,10 @@ export default function HeroSection({ section }: { section: PageSectionsHero }) 
     >
       <div className={styles.overlay} />
       <div className={styles.content}>
-        <h1 className={styles.headline} data-tina-field="headline">{section.headline}</h1>
-        {section.subtext && <p className={styles.subtext} data-tina-field="subtext">{section.subtext}</p>}
+        <h1 className={styles.headline} data-tina-field={tinaField(section, "headline")}>{section.headline}</h1>
+        {section.subtext && <p className={styles.subtext} data-tina-field={tinaField(section, "subtext")}>{section.subtext}</p>}
         {section.ctaText && (
-          <a href={section.ctaLink || "#"} className="btn btn-primary" data-tina-field="ctaText">
+          <a href={section.ctaLink || "#"} className="btn btn-primary" data-tina-field={tinaField(section, "ctaText")}>
             {section.ctaText}
           </a>
         )}

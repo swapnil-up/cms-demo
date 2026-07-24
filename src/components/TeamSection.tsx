@@ -1,6 +1,7 @@
+import { tinaField } from "tinacms/dist/react";
 import styles from "./TeamSection.module.css";
 
-interface TeamMemberData {
+interface TeamMemberData extends Record<string, unknown> {
   name: string;
   role?: string | null;
   photo?: string | null;
@@ -16,15 +17,15 @@ export default function TeamSection({ section }: { section: { title: string; sub
     <section id="team" className="section">
       <div className="container">
         <div className="section-header">
-          <h2 className="section-title" data-tina-field="title">{section.title}</h2>
+          <h2 className="section-title" data-tina-field={tinaField(section, "title")}>{section.title}</h2>
           {section.subtitle && (
-            <p className="section-subtitle" data-tina-field="subtitle">{section.subtitle}</p>
+            <p className="section-subtitle" data-tina-field={tinaField(section, "subtitle")}>{section.subtitle}</p>
           )}
         </div>
         <div className={styles.grid}>
           {members.map((member, i) => (
             <div key={i} className={styles.card}>
-              <div className={styles.avatar}>
+              <div className={styles.avatar} data-tina-field={tinaField(member, "photo")}>
                 {member.photo ? (
                   <img src={member.photo} alt={member.name} />
                 ) : (
@@ -36,9 +37,9 @@ export default function TeamSection({ section }: { section: { title: string; sub
                   </span>
                 )}
               </div>
-              <h3 className={styles.name} data-tina-field="name">{member.name}</h3>
-              {member.role && <p className={styles.role} data-tina-field="role">{member.role}</p>}
-              {member.bio && <p className={styles.bio} data-tina-field="bio">{member.bio}</p>}
+              <h3 className={styles.name} data-tina-field={tinaField(member, "name")}>{member.name}</h3>
+              {member.role && <p className={styles.role} data-tina-field={tinaField(member, "role")}>{member.role}</p>}
+              {member.bio && <p className={styles.bio} data-tina-field={tinaField(member, "bio")}>{member.bio}</p>}
             </div>
           ))}
         </div>

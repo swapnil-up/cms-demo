@@ -1,3 +1,4 @@
+import { tinaField } from "tinacms/dist/react";
 import type { PageSectionsCta } from "../../tina/__generated__/types";
 import styles from "./CTASection.module.css";
 
@@ -6,9 +7,9 @@ export default function CTASection({ section }: { section: PageSectionsCta }) {
     <section className={styles.cta}>
       <div className="container">
         <div className={styles.content}>
-          <h2 className={styles.text} data-tina-field="text">{section.text}</h2>
+          <h2 className={styles.text} data-tina-field={tinaField(section, "text")}>{section.text}</h2>
           {section.buttonText && (
-            <a href={section.buttonLink || "#"} className="btn btn-accent" data-tina-field="buttonText">
+            <a href={section.buttonLink || "#"} className="btn btn-accent" data-tina-field={tinaField(section, "buttonText")}>
               {section.buttonText}
             </a>
           )}

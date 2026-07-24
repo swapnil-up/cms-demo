@@ -1,6 +1,7 @@
+import { tinaField } from "tinacms/dist/react";
 import styles from "./TestimonialsSection.module.css";
 
-interface TestimonialData {
+interface TestimonialData extends Record<string, unknown> {
   quote: string;
   author: string;
   role?: string | null;
@@ -17,17 +18,17 @@ export default function TestimonialsSection({ section }: { section: { title: str
     <section id="testimonials" className="section section-alt">
       <div className="container">
         <div className="section-header">
-          <h2 className="section-title" data-tina-field="title">{section.title}</h2>
+          <h2 className="section-title" data-tina-field={tinaField(section, "title")}>{section.title}</h2>
           {section.subtitle && (
-            <p className="section-subtitle" data-tina-field="subtitle">{section.subtitle}</p>
+            <p className="section-subtitle" data-tina-field={tinaField(section, "subtitle")}>{section.subtitle}</p>
           )}
         </div>
         <div className={styles.grid}>
           {testimonials.map((t, i) => (
             <div key={i} className={styles.card}>
-              <blockquote className={styles.quote} data-tina-field="quote">"{t.quote}"</blockquote>
+              <blockquote className={styles.quote} data-tina-field={tinaField(t, "quote")}>"{t.quote}"</blockquote>
               <div className={styles.author}>
-                <div className={styles.avatar}>
+                <div className={styles.avatar} data-tina-field={tinaField(t, "photo")}>
                   {t.photo ? (
                     <img src={t.photo} alt={t.author} />
                   ) : (
@@ -40,14 +41,9 @@ export default function TestimonialsSection({ section }: { section: { title: str
                   )}
                 </div>
                 <div>
-                  <p className={styles.name} data-tina-field="author">{t.author}</p>
-                  {(t.role || t.organization) && (
-                    <p className={styles.meta}>
-                      {t.role}
-                      {t.role && t.organization ? ", " : ""}
-                      {t.organization}
-                    </p>
-                  )}
+                  <p className={styles.name} data-tina-field={tinaField(t, "author")}>{t.author}</p>
+                  {t.role && <p className={styles.meta} data-tina-field={tinaField(t, "role")}>{t.role}</p>}
+                  {t.organization && <p className={styles.meta} data-tina-field={tinaField(t, "organization")}>{t.organization}</p>}
                 </div>
               </div>
             </div>

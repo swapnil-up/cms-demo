@@ -1,12 +1,13 @@
+import { tinaField } from "tinacms/dist/react";
 import { useState } from "react";
 import styles from "./ContactSection.module.css";
 
-interface ContactSectionData {
+interface ContactSectionData extends Record<string, unknown> {
   title: string;
   subtitle?: string | null;
 }
 
-interface SettingsData {
+interface SettingsData extends Record<string, unknown> {
   contactEmail?: string | null;
   contactPhone?: string | null;
   address?: string | null;
@@ -47,17 +48,17 @@ export default function ContactSection({
     <section id="contact" className="section">
       <div className="container">
         <div className="section-header">
-          <h2 className="section-title" data-tina-field="title">{section.title}</h2>
+          <h2 className="section-title" data-tina-field={tinaField(section, "title")}>{section.title}</h2>
           {section.subtitle && (
-            <p className="section-subtitle" data-tina-field="subtitle">{section.subtitle}</p>
+            <p className="section-subtitle" data-tina-field={tinaField(section, "subtitle")}>{section.subtitle}</p>
           )}
         </div>
-        <div className="contact-grid">
-          <div className="contact-info">
+        <div className={styles.grid}>
+          <div className={styles.info}>
             {settings?.contactEmail && (
-              <div className="contact-item">
+              <div className={styles.item}>
                 <svg
-                  className="contact-icon"
+                  className={styles.icon}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -67,17 +68,17 @@ export default function ContactSection({
                   <path d="M22 4L12 13 2 4" />
                 </svg>
                 <div>
-                  <p className="contact-label">Email</p>
-                  <a href={`mailto:${settings.contactEmail}`}>
+                  <p className={styles.label}>Email</p>
+                  <a href={`mailto:${settings.contactEmail}`} data-tina-field={tinaField(settings, "contactEmail")}>
                     {settings.contactEmail}
                   </a>
                 </div>
               </div>
             )}
             {settings?.contactPhone && (
-              <div className="contact-item">
+              <div className={styles.item}>
                 <svg
-                  className="contact-icon"
+                  className={styles.icon}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -86,17 +87,17 @@ export default function ContactSection({
                   <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
                 </svg>
                 <div>
-                  <p className="contact-label">Phone</p>
-                  <a href={`tel:${settings.contactPhone}`}>
+                  <p className={styles.label}>Phone</p>
+                  <a href={`tel:${settings.contactPhone}`} data-tina-field={tinaField(settings, "contactPhone")}>
                     {settings.contactPhone}
                   </a>
                 </div>
               </div>
             )}
             {settings?.address && (
-              <div className="contact-item">
+              <div className={styles.item}>
                 <svg
-                  className="contact-icon"
+                  className={styles.icon}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -106,8 +107,8 @@ export default function ContactSection({
                   <circle cx="12" cy="10" r="3" />
                 </svg>
                 <div>
-                  <p className="contact-label">Address</p>
-                  <p>{settings.address}</p>
+                  <p className={styles.label}>Address</p>
+                  <p data-tina-field={tinaField(settings, "address")}>{settings.address}</p>
                 </div>
               </div>
             )}

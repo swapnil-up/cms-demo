@@ -37,14 +37,64 @@ export default {
       ui: { component: "textarea" },
     },
     {
-      type: "string",
-      name: "facebookUrl",
-      label: "Facebook URL",
+      type: "object",
+      name: "navLinks",
+      ui: {
+        itemProps(item) {
+          return { label: item?.label || "Nav Link" };
+        },
+        defaultItem: {
+          label: "About",
+          url: "#about",
+        },
+      },
+      label: "Navigation Links",
+      description: "Links shown in the header nav and footer quick links",
+      list: true,
+      fields: [
+        {
+          type: "string",
+          name: "label",
+          label: "Label",
+          required: true,
+        },
+        {
+          type: "string",
+          name: "url",
+          label: "URL",
+          required: true,
+        },
+      ],
     },
     {
-      type: "string",
-      name: "instagramUrl",
-      label: "Instagram URL",
+      type: "object",
+      name: "socialLinks",
+      ui: {
+        itemProps(item) {
+          return { label: item?.label || "Social Link" };
+        },
+        defaultItem: {
+          label: "Facebook",
+          url: "#",
+        },
+      },
+      label: "Social Links",
+      description: "Links shown in the footer Connect section",
+      list: true,
+      fields: [
+        {
+          type: "string",
+          name: "label",
+          label: "Label",
+          required: true,
+        },
+        {
+          type: "string",
+          name: "url",
+          label: "URL",
+          required: true,
+        },
+      ],
     },
     {
       type: "string",
