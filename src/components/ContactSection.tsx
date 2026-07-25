@@ -11,6 +11,7 @@ interface SettingsData extends Record<string, unknown> {
   contactEmail?: string | null;
   contactPhone?: string | null;
   address?: string | null;
+  formEndpoint?: string | null;
 }
 
 export default function ContactSection({
@@ -27,9 +28,13 @@ export default function ContactSection({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!settings?.formEndpoint) {
+      setStatus("error");
+      return;
+    }
     setStatus("loading");
     try {
-      const res = await fetch("https://formspree.io/f/your-form-id", {
+      const res = await fetch(settings.formEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message }),
@@ -113,9 +118,10 @@ export default function ContactSection({
               </div>
             )}
           </div>
-          <div className="contact-form">
-            <form onSubmit={handleSubmit} className={styles.form} name="contact">
+          <form onSubmit={handleSubmit} className={styles.form} name="contact">
+              <label htmlFor="contact-name" className="sr-only">Your Name</label>
               <input
+                id="contact-name"
                 type="text"
                 placeholder="Your Name"
                 className={styles.input}
@@ -123,7 +129,9 @@ export default function ContactSection({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+              <label htmlFor="contact-email" className="sr-only">Your Email</label>
               <input
+                id="contact-email"
                 type="email"
                 placeholder="Your Email"
                 className={styles.input}
@@ -131,7 +139,9 @@ export default function ContactSection({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <label htmlFor="contact-message" className="sr-only">Your Message</label>
               <textarea
+                id="contact-message"
                 placeholder="Your Message"
                 className={`${styles.input} ${styles.textarea}`}
                 rows={4}
@@ -153,11 +163,10 @@ export default function ContactSection({
               )}
               {status === "error" && (
                 <p className={styles.feedback + " " + styles.error}>
-                  Failed to send. Please try again.
+                  {settings?.formEndpoint ? "Failed to send. Please try again." : "Form endpoint not configured in site settings."}
                 </p>
               )}
             </form>
-          </div>
         </div>
       </div>
     </section>

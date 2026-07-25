@@ -24,7 +24,7 @@ export default function TeamSection({ section }: { section: { title: string; sub
         </div>
         <div className={styles.grid}>
           {members.map((member, i) => (
-            <div key={i} className={styles.card}>
+            <div key={`${member.name}-${i}`} className={styles.card}>
               <div className={styles.avatar} data-tina-field={tinaField(member, "photo")}>
                 {member.photo ? (
                   <img src={member.photo} alt={member.name} />

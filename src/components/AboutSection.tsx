@@ -7,7 +7,7 @@ export default function AboutSection({ section }: { section: PageSectionsAbout }
   return (
     <section id="about" className="section">
       <div className="container">
-        <div className={styles.grid}>
+        <div className={section.image ? styles.grid : styles.gridSingle}>
           <div className={styles.text}>
             <h2 className="section-title" data-tina-field={tinaField(section, "title")}>{section.title}</h2>
             {section.content && (

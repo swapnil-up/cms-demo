@@ -16,13 +16,13 @@ export default function Footer({ settings }: { settings: SettingsPartsFragment }
           <div className={styles.links}>
             <h4>Quick Links</h4>
             {navLinks.map((link, i) => (
-              <a key={i} href={link?.url || "#"} data-tina-field={tinaField(settings, "navLinks", i)}>{link?.label}</a>
+              <a key={`${link?.label}-${i}`} href={link?.url || "#"} data-tina-field={tinaField(settings, "navLinks", i)}>{link?.label}</a>
             ))}
           </div>
           <div className={styles.social}>
             <h4>Connect</h4>
             {socialLinks.map((link, i) => (
-              <a key={i} href={link?.url || "#"} target="_blank" rel="noopener noreferrer" data-tina-field={tinaField(settings, "socialLinks", i)}>
+              <a key={`${link?.label}-${i}`} href={link?.url || "#"} target="_blank" rel="noopener noreferrer" data-tina-field={tinaField(settings, "socialLinks", i)}>
                 {link?.label}
               </a>
             ))}

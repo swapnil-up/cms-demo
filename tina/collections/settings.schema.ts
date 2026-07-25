@@ -98,6 +98,12 @@ export default {
     },
     {
       type: "string",
+      name: "formEndpoint",
+      label: "Contact Form Endpoint",
+      description: "URL for form submissions (e.g. Formspree endpoint)",
+    },
+    {
+      type: "string",
       name: "footerText",
       label: "Footer Copyright Text",
       ui: { component: "textarea" },

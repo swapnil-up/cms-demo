@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext, useCallback } from "react";
+import { useState, useEffect, useRef, createContext, useContext, useCallback } from "react";
 import { useTina } from "tinacms/dist/react";
 import client from "../tina/__generated__/client";
 
@@ -86,6 +86,26 @@ function LoadedApp({
   pageRes: PageQueryResponse;
   settingsRes: SettingsQueryResponse;
 }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    const sections = (rootRef.current ?? document).querySelectorAll(".section");
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   const { data: pageData } = useTina({
     query: pageRes.query,
     variables: pageRes.variables,
@@ -105,7 +125,7 @@ function LoadedApp({
   const sections = (pageData.page.sections || []).filter((s): s is PageSectionData => s != null);
 
   return (
-    <>
+    <div ref={rootRef}>
       <Navbar settings={settings} />
       <main>
           {sections.map((section, i) => (
@@ -117,7 +137,7 @@ function LoadedApp({
           ))}
       </main>
       <Footer settings={settings} />
-    </>
+    </div>
   );
 }
 

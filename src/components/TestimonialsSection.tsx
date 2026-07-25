@@ -25,8 +25,8 @@ export default function TestimonialsSection({ section }: { section: { title: str
         </div>
         <div className={styles.grid}>
           {testimonials.map((t, i) => (
-            <div key={i} className={styles.card}>
-              <blockquote className={styles.quote} data-tina-field={tinaField(t, "quote")}>"{t.quote}"</blockquote>
+            <div key={`${t.author}-${i}`} className={styles.card}>
+              <blockquote className={styles.quote} data-tina-field={tinaField(t, "quote")}>{t.quote}</blockquote>
               <div className={styles.author}>
                 <div className={styles.avatar} data-tina-field={tinaField(t, "photo")}>
                   {t.photo ? (

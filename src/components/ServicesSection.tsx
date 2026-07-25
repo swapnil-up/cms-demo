@@ -13,7 +13,7 @@ export default function ServicesSection({ section }: { section: PageSectionsServ
         </div>
         <div className={styles.grid}>
           {services.map((service, i) => (
-            <div key={i} className={styles.card}>
+            <div key={`${service.title}-${i}`} className={styles.card}>
               <div className={styles.icon}>{String(i + 1).padStart(2, "0")}</div>
               <h3 className={styles.title} data-tina-field={tinaField(service, "title")}>{service.title}</h3>
               {service.description && (
