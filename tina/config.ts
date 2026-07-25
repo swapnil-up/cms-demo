@@ -23,7 +23,7 @@ export default defineConfig({
   build: {
     publicFolder: "public",
     outputFolder: "admin",
-    basePath: "cms-demo",
+    basePath: process.env.TINA_BASE_PATH || undefined,
   },
   schema: {
     collections: [
