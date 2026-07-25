@@ -23,7 +23,7 @@ export default defineConfig({
   build: {
     publicFolder: "public",
     outputFolder: "admin",
-    basePath: "/cms-demo",
+    basePath: "cms-demo",
   },
   schema: {
     collections: [
