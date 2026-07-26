@@ -5,10 +5,11 @@
   "contactPhone": "+977-1-4XXXXXX",
   "address": "Kathmandu, Nepal",
   "navLinks": [
-    { "label": "About", "url": "#about" },
-    { "label": "Services", "url": "#services" },
-    { "label": "Team", "url": "#team" },
-    { "label": "Contact", "url": "#contact" }
+    { "label": "Home", "url": "/" },
+    { "label": "About", "url": "/about" },
+    { "label": "Programs", "url": "/services" },
+    { "label": "Team", "url": "/team" },
+    { "label": "Contact", "url": "/contact" }
   ],
   "socialLinks": [
     { "label": "Facebook", "url": "#" },
