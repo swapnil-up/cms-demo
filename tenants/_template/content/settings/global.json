@@ -1,24 +1,20 @@
 {
-  "siteName": "Samriddhi Nepal",
-  "tagline": "Empowering Communities, Building Futures",
-  "contactEmail": "info@samriddhinepal.org",
-  "contactPhone": "+977-1-4XXXXXX",
-  "address": "Kathmandu, Nepal",
+  "siteName": "Your NGO Name",
+  "tagline": "Your mission statement",
+  "contactEmail": "info@yourngo.org",
+  "contactPhone": "+123-456-7890",
+  "address": "Your City, Country",
   "navLinks": [
     { "label": "About", "url": "#about" },
     { "label": "Services", "url": "#services" },
-    { "label": "Team", "url": "#team" },
     { "label": "Contact", "url": "#contact" }
   ],
   "socialLinks": [
     { "label": "Facebook", "url": "#" },
-    { "label": "Instagram", "url": "#" },
-    { "label": "Twitter", "url": "#" },
-    { "label": "LinkedIn", "url": "#" },
-    { "label": "YouTube", "url": "#" }
+    { "label": "Twitter", "url": "#" }
   ],
   "formEndpoint": "",
-  "footerText": "© 2026 Samriddhi Nepal. All rights reserved.",
+  "footerText": "© 2026 Your NGO Name. All rights reserved.",
   "brand": {
     "logo": "",
     "favicon": "",

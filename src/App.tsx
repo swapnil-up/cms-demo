@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef, createContext, useContext, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useTina } from "tinacms/dist/react";
 import client from "../tina/__generated__/client";
+import { NavigateContext } from "./navigate";
 
 import type {
   PageQuery,
@@ -31,14 +32,6 @@ function getPageSlug(pathname: string): string {
   const segments = p.split("/").filter(Boolean);
   return segments.length === 0 ? "home" : segments[segments.length - 1] || "home";
 }
-
-interface NavigateContextValue {
-  navigate: (to: string) => void;
-}
-
-const NavigateContext = createContext<NavigateContextValue>({ navigate: () => {} });
-
-export const useNavigate = () => useContext(NavigateContext);
 
 function SectionRenderer({
   section,
@@ -77,6 +70,56 @@ interface SettingsQueryResponse {
   data: SettingsQuery;
   query: string;
   variables: SettingsQueryVariables;
+}
+
+function hexToRgb(hex: string): string | null {
+  let h = hex.replace(/^#/, "");
+  if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+  if (h.length === 8) h = h.slice(0, 6);
+  const m = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
+  return m ? `${parseInt(m[1], 16)}, ${parseInt(m[2], 16)}, ${parseInt(m[3], 16)}` : null;
+}
+
+function setCssVar(name: string, value: string | undefined | null, root: HTMLElement) {
+  if (value) {
+    root.style.setProperty(name, value);
+    const rgb = hexToRgb(value);
+    if (rgb) root.style.setProperty(`${name}-rgb`, rgb);
+  }
+}
+
+function applyBrandTheme(settings: SettingsPartsFragment | null) {
+  const colors = settings?.brand?.colors;
+  if (!colors) return;
+  const root = document.documentElement;
+  setCssVar("--primary", colors.primary, root);
+  setCssVar("--primary-dark", colors.primaryDark, root);
+  setCssVar("--primary-light", colors.primaryLight, root);
+  setCssVar("--accent", colors.accent, root);
+  setCssVar("--accent-light", colors.accentLight, root);
+  setCssVar("--accent-hover", colors.accentHover, root);
+  setCssVar("--gold", colors.gold, root);
+  setCssVar("--gold-light", colors.goldLight, root);
+  setCssVar("--gold-hover", colors.goldHover, root);
+  setCssVar("--green", colors.green, root);
+  setCssVar("--green-light", colors.greenLight, root);
+  setCssVar("--footer-bg", colors.footerBg, root);
+  setCssVar("--hero-bg-start", colors.heroBgStart, root);
+  setCssVar("--body-bg", colors.bodyBg, root);
+  if (settings?.brand?.favicon) {
+    let link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "icon";
+      document.head.appendChild(link);
+    }
+    link.href = settings.brand.favicon;
+  }
+  if (settings?.siteName) {
+    document.title = `${settings.siteName}${settings.tagline ? ` — ${settings.tagline}` : ""}`;
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (meta && settings.tagline) meta.content = settings.tagline;
+  }
 }
 
 function LoadedApp({
@@ -123,6 +166,10 @@ function LoadedApp({
 
   const settings = settingsData.settings;
   const sections = (pageData.page.sections || []).filter((s): s is PageSectionData => s != null);
+
+  useEffect(() => {
+    applyBrandTheme(settings);
+  }, [settings]);
 
   return (
     <div ref={rootRef}>

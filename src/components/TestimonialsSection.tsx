@@ -1,18 +1,11 @@
 import { tinaField } from "tinacms/dist/react";
+import type { PageSectionsTestimonials, Testimonial } from "../../tina/__generated__/types";
 import styles from "./TestimonialsSection.module.css";
 
-interface TestimonialData extends Record<string, unknown> {
-  quote: string;
-  author: string;
-  role?: string | null;
-  organization?: string | null;
-  photo?: string | null;
-}
-
-export default function TestimonialsSection({ section }: { section: { title: string; subtitle?: string | null; items?: Array<{ item?: TestimonialData | null } | null> | null } }) {
+export default function TestimonialsSection({ section }: { section: PageSectionsTestimonials }) {
   const testimonials = (section.items || [])
     .map((i) => i?.item)
-    .filter((x): x is TestimonialData => x != null);
+    .filter((x): x is Testimonial => x != null);
 
   return (
     <section id="testimonials" className="section section-alt">

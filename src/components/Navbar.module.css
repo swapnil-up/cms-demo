@@ -26,6 +26,15 @@
   font-weight: 700;
   color: var(--primary);
   letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 .links {

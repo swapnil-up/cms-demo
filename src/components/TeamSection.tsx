@@ -1,17 +1,11 @@
 import { tinaField } from "tinacms/dist/react";
+import type { PageSectionsTeam, Team } from "../../tina/__generated__/types";
 import styles from "./TeamSection.module.css";
 
-interface TeamMemberData extends Record<string, unknown> {
-  name: string;
-  role?: string | null;
-  photo?: string | null;
-  bio?: string | null;
-}
-
-export default function TeamSection({ section }: { section: { title: string; subtitle?: string | null; members?: Array<{ member?: TeamMemberData | null } | null> | null } }) {
+export default function TeamSection({ section }: { section: PageSectionsTeam }) {
   const members = (section.members || [])
     .map((m) => m?.member)
-    .filter((x): x is TeamMemberData => x != null);
+    .filter((x): x is Team => x != null);
 
   return (
     <section id="team" className="section">

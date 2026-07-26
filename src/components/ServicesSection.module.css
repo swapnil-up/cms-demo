@@ -5,7 +5,7 @@
 }
 
 .card {
-  background: #f8f7f5;
+  background: var(--card-bg);
   padding: 2.5rem 2rem;
   border-radius: var(--radius-lg);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -38,7 +38,7 @@
   align-items: center;
   justify-content: center;
   background: var(--primary);
-  color: #fff;
+  color: var(--white, #fff);
   font-size: 0.85rem;
   font-weight: 700;
   border-radius: var(--radius);

@@ -1,5 +1,5 @@
 .cta {
-  background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 50%, #081e26 100%);
+  background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 50%, var(--hero-bg-start) 100%);
   padding: 5rem 0;
   text-align: center;
   position: relative;
@@ -11,7 +11,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 30% 50%, rgba(196, 115, 94, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 50%, rgba(var(--accent-rgb, 196, 115, 94), 0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 70% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
 }
 
@@ -28,7 +28,7 @@
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
 }
 
 @media (max-width: 768px) {

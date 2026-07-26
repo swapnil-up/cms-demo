@@ -4,7 +4,7 @@ import styles from "./HeroSection.module.css";
 
 export default function HeroSection({ section }: { section: PageSectionsHero }) {
   const bgImage = section.backgroundImage
-    ? `linear-gradient(160deg, rgba(44,24,16,0.75) 0%, rgba(138,50,30,0.6) 40%, rgba(184,74,44,0.5) 70%, rgba(212,149,58,0.3) 100%), url(${section.backgroundImage})`
+    ? `linear-gradient(160deg, rgba(var(--primary-dark-rgb, 14, 46, 56), 0.75) 0%, rgba(var(--accent-rgb, 196, 115, 94), 0.5) 40%, rgba(var(--accent-rgb, 196, 115, 94), 0.35) 70%, rgba(var(--gold-rgb, 196, 149, 74), 0.25) 100%), url(${section.backgroundImage})`
     : undefined;
 
   return (

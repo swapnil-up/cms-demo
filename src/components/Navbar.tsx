@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { tinaField } from "tinacms/dist/react";
 import type { SettingsPartsFragment } from "../../tina/__generated__/types";
-import { useNavigate } from "../App";
+import { useNavigate } from "../navigate";
 import styles from "./Navbar.module.css";
 
 export default function Navbar({ settings }: { settings: SettingsPartsFragment }) {
@@ -20,6 +20,8 @@ export default function Navbar({ settings }: { settings: SettingsPartsFragment }
     setMobileOpen(false);
   }
 
+  const logo = settings?.brand?.logo;
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.inner}>
@@ -29,7 +31,11 @@ export default function Navbar({ settings }: { settings: SettingsPartsFragment }
           data-tina-field={tinaField(settings, "siteName")}
           onClick={(e) => handleClick(e, "/")}
         >
-          {settings?.siteName}
+          {logo ? (
+            <img src={logo} alt={settings?.siteName || ""} className={styles.logo} onError={(e) => { e.currentTarget.style.display = "none"; }} />
+          ) : (
+            settings?.siteName
+          )}
         </a>
         <button
           className={`${styles.hamburger} ${mobileOpen ? styles.hamburgerOpen : ""}`}

@@ -1,25 +1,14 @@
 import { tinaField } from "tinacms/dist/react";
 import { useState } from "react";
+import type { PageSectionsContact, SettingsPartsFragment } from "../../tina/__generated__/types";
 import styles from "./ContactSection.module.css";
-
-interface ContactSectionData extends Record<string, unknown> {
-  title: string;
-  subtitle?: string | null;
-}
-
-interface SettingsData extends Record<string, unknown> {
-  contactEmail?: string | null;
-  contactPhone?: string | null;
-  address?: string | null;
-  formEndpoint?: string | null;
-}
 
 export default function ContactSection({
   section,
   settings,
 }: {
-  section: ContactSectionData;
-  settings: SettingsData;
+  section: PageSectionsContact;
+  settings: SettingsPartsFragment;
 }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
